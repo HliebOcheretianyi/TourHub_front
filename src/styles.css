@@ -4,8 +4,18 @@ body { margin: 0; font-family: system-ui, sans-serif; background: #f6f7f9; color
 header { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid #d5d9de; margin-bottom: 16px; }
 header h1 { margin: 0; font-size: 22px; }
 nav { display: flex; gap: 8px; padding: 12px 0; }
-nav button { background: none; border: none; color: #1f2933; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 15px; }
-nav button.active { background: #2f6fed; color: #fff; }
+header { flex-wrap: wrap; }
+nav { flex: 1; flex-wrap: wrap; }
+nav a, .user-area a { color: #1f2933; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 15px; }
+nav a:hover, .user-area a:hover { background: #e4e7eb; }
+nav a.active, .user-area a.active { background: #2f6fed; color: #fff; }
+.user-area { display: flex; align-items: center; gap: 8px; }
+.user-area .user-name { font-weight: 600; }
+a { color: #2f6fed; }
+a:focus-visible, button:focus-visible { outline: 2px solid #2f6fed; outline-offset: 2px; }
+button:disabled { opacity: 0.6; cursor: default; }
+.narrow { max-width: 480px; }
+.narrow th { width: 40%; }
 button { background: #2f6fed; color: #fff; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 button.secondary { background: #e4e7eb; color: #1f2933; }
 button.danger { background: #d64545; }
