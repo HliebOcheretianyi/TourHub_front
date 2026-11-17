@@ -9,8 +9,10 @@ function emptyForm(fields) {
   return form;
 }
 
-export default function ResourcePage({ config, onResponse }) {
-  const { title, path, fields, columns } = config;
+// readOnly: лише перегляд (без форми й кнопок); canDelete: чи показувати кнопку «Видалити».
+export default function ResourcePage({ config, onResponse, readOnly = false, canDelete = true, title: customTitle }) {
+  const { path, fields, columns } = config;
+  const title = customTitle || config.title;
   const [items, setItems] = useState([]);
   const [lookups, setLookups] = useState({});
   const [form, setForm] = useState(emptyForm(fields));
@@ -125,6 +127,7 @@ export default function ResourcePage({ config, onResponse }) {
     <section>
       <h2>{title}</h2>
 
+      {!readOnly && (
       <form className="form" onSubmit={submit}>
         <h3>{editingId ? `Редагування (id ${editingId})` : "Створити"}</h3>
 
@@ -175,6 +178,7 @@ export default function ResourcePage({ config, onResponse }) {
           )}
         </div>
       </form>
+      )}
 
       {message && <p className={message.type === "ok" ? "ok" : "error"}>{message.text}</p>}
 
@@ -190,7 +194,7 @@ export default function ResourcePage({ config, onResponse }) {
             {columns.map((c) => (
               <th key={c.key}>{c.label}</th>
             ))}
-            <th></th>
+            {!readOnly && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -200,14 +204,18 @@ export default function ResourcePage({ config, onResponse }) {
               {columns.map((c) => (
                 <td key={c.key}>{cell(item, c)}</td>
               ))}
-              <td className="actions">
-                <button className="secondary" onClick={() => startEdit(item)}>
-                  Редагувати
-                </button>
-                <button className="danger" onClick={() => remove(item)}>
-                  Видалити
-                </button>
-              </td>
+              {!readOnly && (
+                <td className="actions">
+                  <button className="secondary" onClick={() => startEdit(item)}>
+                    Редагувати
+                  </button>
+                  {canDelete && (
+                    <button className="danger" onClick={() => remove(item)}>
+                      Видалити
+                    </button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
